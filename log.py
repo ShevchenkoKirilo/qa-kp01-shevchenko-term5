@@ -16,7 +16,6 @@ class Log:
     def move(self, destination):
         if destination.count >= destination.lim:
             raise Exception('Destination folder is full')
-            return
         if self.parent is not None:
             self.parent.count -= 1
             self.parent.children.remove(self)

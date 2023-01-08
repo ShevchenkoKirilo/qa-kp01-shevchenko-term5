@@ -29,7 +29,6 @@ class Buffer:
     def push(self, content):
         if len(self.content) >= self.size:
             raise Exception('Buffer is full')
-            return
         self.content.append(content)
         return
 

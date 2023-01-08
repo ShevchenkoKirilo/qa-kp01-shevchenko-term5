@@ -15,23 +15,23 @@ class Folder:
             self.parent.children.remove(self)
         return
 
-    def list(self, space=''):
+    def list(self, tab=' '):
         result = ''
-        for item in self.children:
-            if type(item) is Folder:
-                result += space + '->' + self.name + '\n'
-                space += '  '
-                result += item.list(space + '  ')
-                result += space + '<-\n'
+        result += tab + self.name + "\n"
+        result += tab + "->\n"
+        for child in self.children:
+            if type(child) is Folder:
+                tab += '   '
+                result += child.list(tab)
+                tab = tab[:-3]
             else:
-                result += space + item.name + ', ' + '\n'
-        print(result)
+                result += tab + '   ' + child.name + "\n"
+        result += tab + "<-\n"
         return result
 
     def move(self, destination):
         if destination.count >= destination.lim:
             raise Exception('Destination folder is full')
-            return
         if self.parent is not None:
             self.parent.count -= 1
             self.parent.children.remove(self)
