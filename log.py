@@ -1,5 +1,5 @@
 class Log:
-    def __init__(self, parent=None):
+    def __init__(self, name, parent=None):
         print(self)
 
     def __delete__(self):
