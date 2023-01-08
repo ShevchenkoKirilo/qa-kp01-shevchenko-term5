@@ -8,7 +8,7 @@ class Buffer:
             self.parent.children.append(self)
         self.content = []
 
-    def __delete__(self):
+    def __delete__(self): 
         if self.parent is not None:
             self.parent.count -= 1
             self.parent.children.remove(self)

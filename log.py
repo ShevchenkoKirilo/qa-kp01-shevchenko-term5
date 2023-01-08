@@ -1,11 +1,11 @@
 class Log:
-    def __init__(self, name, parent=None):
+    def __init__(self, name, parent=None, content=''):
         self.name = name
         self.parent = parent
+        self.content = content
         if parent is not None:
             self.parent.count += 1
-            self.parent.children.append(self)
-        self.content = ''
+            self.parent.children.append(self) 
 
     def __delete__(self):
         if self.parent is not None:

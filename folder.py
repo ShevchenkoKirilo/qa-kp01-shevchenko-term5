@@ -7,7 +7,7 @@ class Folder:
         self.children = []
         if parent is not None:
             self.parent.count += 1
-            self.parent.children.append(self)
+            self.parent.children.append(self) 
 
     def __delete__(self):
         if self.parent is not None:

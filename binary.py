@@ -7,7 +7,7 @@ class Binary:
             self.parent.count += 1
             self.parent.children.append(self)
 
-    def __delete__(self):
+    def __delete__(self): 
         if self.parent is not None:
             self.parent.count -= 1
             self.parent.children.remove(self)
