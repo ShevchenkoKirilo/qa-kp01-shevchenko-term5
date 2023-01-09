@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 deleted = []
 
-root = Folder('root', 0, None)
+root = Folder('root', 64, None)
 
 
 @app.route('/binary', methods=['POST', 'GET', 'PATCH', 'DELETE'])
@@ -83,7 +83,7 @@ def buffer():
         return jsonify({
             "message": "Buffer file was created",
             "buffer": {
-                "parent": str(buf.parent),
+                "parent": str(buf.parent.name),
                 "name": str(buf.name),
                 "size": int(buf.size),
                 "content": list(buf.content)
@@ -96,7 +96,7 @@ def buffer():
             return jsonify({
                 "message": "Buffer file was created",
                 "buffer": {
-                    "parent": str(buf.parent),
+                    "parent": str(buf.parent.name),
                     "name": str(buf.name),
                     "size": int(buf.size),
                     "content": list(buf.content)
@@ -114,7 +114,7 @@ def buffer():
                 return jsonify({
                     "message": "Buffer file was moved",
                     "buffer": {
-                        "parent": str(buf.parent),
+                        "parent": str(buf.parent.name),
                         "name": str(buf.name),
                         "size": int(buf.size),
                         "content": list(buf.content)
@@ -125,7 +125,7 @@ def buffer():
                 return jsonify({
                     "message": "Line was added to buffer file",
                     "buffer": {
-                        "parent": str(buf.parent),
+                        "parent": str(buf.parent.name),
                         "name": str(buf.name),
                         "size": int(buf.size),
                         "content": list(buf.content)
@@ -137,7 +137,7 @@ def buffer():
                 return jsonify({
                     "message": "Line was consumed from buffer file",
                     "buffer": {
-                        "parent": str(buf.parent),
+                        "parent": str(buf.parent.name),
                         "name": str(buf.name),
                         "size": int(buf.size),
                         "content": list(buf.content)
@@ -175,7 +175,7 @@ def folder():
         return jsonify({
             "message": "Folder was created",
             "folder": {
-                "parent": str(fold.parent),
+                "parent": str(fold.parent.name),
                 "name": str(fold.name),
                 "lim": int(fold.lim),
                 "count": int(fold.count),
@@ -192,7 +192,7 @@ def folder():
             return jsonify({
                 "message": "Folder was read",
                 "folder": {
-                    "parent": str(fold.parent),
+                    "parent": str(fold.parent.name),
                     "name": str(fold.name),
                     "lim": int(fold.lim),
                     "count": int(fold.count),
@@ -210,7 +210,7 @@ def folder():
             return jsonify({
                 "message": "Folder was moved",
                 "folder": {
-                    "parent": str(fold.parent),
+                    "parent": str(fold.parent.name),
                     "name": str(fold.name),
                     "lim": int(fold.lim),
                     "count": int(fold.count),
@@ -228,10 +228,10 @@ def folder():
             del fold
             deleted.append(request.args.get('name'))
             return jsonify({
-                "message": "Directory was deleted",
+                "message": "Folder was deleted",
             }), 200
         return jsonify({
-            "message": "Directory was not deleted",
+            "message": "Folder was not deleted",
         }), 400
 
 

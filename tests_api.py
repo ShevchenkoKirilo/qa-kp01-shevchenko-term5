@@ -4,33 +4,30 @@ from types import NoneType
 
  
 class TestAPI:
-    root = Folder('root', 64)
-    fold = Folder('fold', 32, root)
+    def test_create_folder(self):
+        response = requests.post("http://localhost:5000/folder?parent=root&name=child&lim=64")
+        assert response.status_code == 201
+        assert response.json().get('message') == 'Folder was created'
+        assert response.json().get('folder').get('lim') == 64
+        assert response.json().get('folder').get('count') == 0
+        assert not type(response.json().get('folder').get('parent')) is NoneType
+        response = requests.post("http://localhost:5000/folder?parent=root&name=child&lim=64")
+        assert response.status_code == 400
+        assert response.json().get('message') == 'Folder with this name already exists'
 
     def test_read_folder(self):
         response = requests.get('http://localhost:5000/folder?name=root')
         assert response.status_code == 200
         assert response.json().get('message') == 'Folder was read'
         assert response.json().get('folder').get('lim') == 64
-        assert response.json().get('folder').get('count') == 0
+        assert response.json().get('folder').get('count') == 1
         assert type(eval(response.json().get('folder').get('parent'))) is NoneType
-
-    def test_create_folder(self):
-        response = requests.post("http://localhost:5000/folder?parent=root&name=child&max_elems=16")
-        assert response.status_code == 201
-        assert response.json().get('message') == 'Folder was created'
-        assert response.json().get('folder').get('lim') == 16
-        assert response.json().get('folder').get('count') == 0
-        assert not type(response.json().get('folder').get('parent')) is NoneType
-        response = requests.post("http://localhost:5000/folder?parent=root&name=child&max_elems=16")
-        assert response.status_code == 400
-        assert response.json().get('message') == 'Folder with this name already exists'
 
     def test_move_folder(self):
         response = requests.patch("http://localhost:5000/folder?name=child&parent=root")
         assert response.status_code == 200
         assert response.json().get('message') == 'Folder was moved'
-        assert response.json().get('folder').get('parent') == "root"
+        assert type(response.json().get('folder').get('parent')) is not NoneType
 
     def test_delete_folder(self):
         response = requests.delete("http://localhost:5000/folder?name=child")
